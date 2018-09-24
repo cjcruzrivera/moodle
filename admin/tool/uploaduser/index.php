@@ -1129,7 +1129,7 @@ if ($formdata = $mform2->is_cancelled()) {
     }
     $cir->close();
     $cir->cleanup(true);
-
+    //sendMailToNewUsers($arrayUsersNew);
     echo $OUTPUT->box_start('boxwidthnarrow boxaligncenter generalbox', 'uploadresults');
     echo '<p>';
     if ($optype != UU_USER_UPDATE) {

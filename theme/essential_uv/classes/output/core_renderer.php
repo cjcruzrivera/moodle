@@ -45,6 +45,7 @@ use pix_icon;
 use stdClass;
 
 require_once($CFG->dirroot."/course/format/lib.php");
+require_once($CFG->dirroot.'/theme/essential_uv/classes/output/core_user/myprofile/renderer.php');
 
 class core_renderer extends \core_renderer {
     use core_renderer_toolbox;
@@ -375,8 +376,19 @@ class core_renderer extends \core_renderer {
      */
     public function course_content_header($onlyifnotcalledbefore = false) {
         $content = parent::course_content_header($onlyifnotcalledbefore);
-
         if ($this->page->pagelayout == 'mydashboard') {
+            /*Mensage personalizado para invitar a eliminar cursos */
+            global $CFG, $USER;
+            $courses = enrol_get_all_users_courses($USER->id, true); 
+            if(count((array)$courses) > 0){
+                $msg_delete_course = "Si usted desea eliminar alguno de sus cursos, por favor dirijase a la sección ";
+                $url_delete_courses = $CFG->wwwroot."/course/delete_course_old";
+                $content .= '<div class="alert alert-warning">';
+                $content .= '<h3>'.$msg_delete_course;
+                $content .= '<a style="color:#D51B23;" href='.$url_delete_courses.'>Eliminar cursos</a>';
+                $content .= '</h3></div>';
+            }
+            /*Campo de búsqueda*/
             if (\theme_essential_uv\toolbox::course_content_search()) {
                 $content .= '<div class="courseitemsearch">';
                 $content .= '<div><p>'.get_string('findcoursecontent', 'theme_essential_uv').'</p></div>';
@@ -385,7 +397,6 @@ class core_renderer extends \core_renderer {
                 $content .= '</div></div>';
             }
         }
-
         return $content;
     }
 
@@ -2553,9 +2564,9 @@ class core_renderer extends \core_renderer {
                 get_string('versionalerttext1', 'theme_essential_uv').'<br />'.
                 get_string('versionalerttext2', 'theme_essential_uv');
             $result .= '</div>';
-if(get_string('versionalerttext1', 'theme_essential_uv') == 'Theme not designed for Moodle version.'){
-    $result = '';
-}
+    if(get_string('versionalerttext1', 'theme_essential_uv') == 'Theme not designed for Moodle version.'){
+        $result = '';
+    }
 
         }
 
@@ -2575,3 +2586,4 @@ if(get_string('versionalerttext1', 'theme_essential_uv') == 'Theme not designed 
         }
     }
 }
+
