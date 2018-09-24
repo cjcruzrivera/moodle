@@ -9,5 +9,8 @@
 	// Incourse.
 	$string['returntosection'] = 'Retornar a: {$a->section}';
 	$string['addsections'] = 'Agregar sección';
+
+	// View
+	$string['viewless'] = 'Ver menos';
 	?>
 
